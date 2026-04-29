@@ -28,23 +28,25 @@ def send_signal(signal_id):
     # エラーがあればここで止まる
     r.raise_for_status()
 
-# 明るさの値を見て照明を制御する関数
-def control_light(current_light, threshold=40):
-    # 明るさが取得できなかった場合
+last_state = None
+
+def control_light(current_light, threshold=THRESHOLD):
+    global last_state
+
     if current_light is None:
-        print("明るさが取得できませんでした")
+        print("明るさ取得失敗")
         return
 
-    # しきい値より暗いなら照明ON
     if current_light < threshold:
-        send_signal(LIGHT_ON_SIGNAL_ID)
-        print("暗いので照明ON")
-
-    # しきい値以上なら照明OFF
+        if last_state != "ON":
+            send_signal(LIGHT_ON_SIGNAL_ID)
+            print("暗いので照明ON")
+            last_state = "ON"
     else:
-        send_signal(LIGHT_OFF_SIGNAL_ID)
-        print("明るいので照明OFF")
-
+        if last_state != "OFF":
+            send_signal(LIGHT_OFF_SIGNAL_ID)
+            print("明るいので照明OFF")
+            last_state = "OFF"
 # テスト実行
 if __name__ == "__main__":
     # 例として手動で明るさを入れて試す

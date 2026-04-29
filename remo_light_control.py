@@ -2,6 +2,8 @@ import requests
 import time
 import csv
 import os
+import gspread
+from google.oauth2.service_account import Credentials
 from datetime import datetime
 
 # =========================
@@ -110,8 +112,8 @@ def main():
             # 現在の情報を表示
             print(f"[{datetime.now()}] device={name}, light={light}")
 
-            # CSV保存
-            save_csv(light)
+            # スプレッドシート保存
+            save_to_spreadsheet(light, name)
 
             # 照明制御
             control_light(light)
@@ -121,7 +123,30 @@ def main():
 
         # 5分待つ
         time.sleep(300)
+# =========================
+# スプレッドシート保存
+# =========================
+SPREADSHEET_NAME = "nature remo"
 
+def save_to_spreadsheet(light_value, device_name):
+    scopes = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
+    creds = Credentials.from_service_account_file(
+        "service_account.json",
+        scopes=scopes
+    )
+
+    gc = gspread.authorize(creds)
+    sheet = gc.open(SPREADSHEET_NAME).sheet1
+
+    sheet.append_row([
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        device_name,
+        light_value
+    ])
 
 # =========================
 # 実行開始
