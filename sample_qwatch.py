@@ -5,9 +5,9 @@ import xml.etree.ElementTree as ET #APIがXML形式のため
 from datetime import datetime
 from requests.auth import HTTPDigestAuth #Digest認証
 
-CAMERA_IP = "192.168.1.214"
-USERNAME = "admin"
-PASSWORD = "h810"
+CAMERA_IP = ""
+USERNAME = ""
+PASSWORD = ""
 
 #写真保存お試しプログラム
 def snapshot():
