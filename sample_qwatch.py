@@ -1,4 +1,4 @@
-#テストまだ
+#テスト済み
 import requests
 import time
 import xml.etree.ElementTree as ET #APIがXML形式のため
@@ -13,7 +13,7 @@ PASSWORD = ""
 def snapshot():
 
     #検索窓にurl入れてuser名とpassword入れるとその瞬間のsnapshot見れる
-    url = f"http://{CAMERA_IP}/snapshot.jpg"
+    url = f""
 
     #APIにリクエスト
     res = requests.get(
@@ -29,7 +29,7 @@ def snapshot():
 
     #保存する写真のファイル名作成
     filename = datetime.now().strftime("%Y%m%d_%H%M%S.jpg")
-    path = f"/mnt/c/Users/M.Kairiki132932/Desktop/picture/{filename}"
+    path = f"{filename}"
 
     with open(path, "wb") as f:
         f.write(res.content)
@@ -41,9 +41,7 @@ def get_person_count():
 
     #人数カウントAPI
     url = (
-        f"http://{CAMERA_IP}"
-        "/camera-cgi/admin/param.cgi"
-        "?action=list&group=AIDetection_PC_TotalNumber"
+        f"API"
     )
 
     try:
@@ -75,7 +73,7 @@ def get_person_count():
 #AppScriptに書き込むプログラム
 def write_spreadsheet():
     #AppsScript URL
-    GAS_URL = "https://script.google.com/macros/s/AKfycbzXHfVo2Dm-Tx8GvM2b5wHg4-IiEW84I4utTK4kx9fjLLsdmRjZEJpjygIqzNrG7gjK/exec"
+    GAS_URL = "GASURL"
 
     #現在時刻取得
     now = datetime.now().strftime(
